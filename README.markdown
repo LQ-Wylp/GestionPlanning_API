@@ -2,6 +2,7 @@
 ```
 {
     id: integer
+    idTeacher: integer
     name: string
     description: text
     dateBegin: datetime
@@ -9,12 +10,12 @@
     place: string
 }
 ```
-# Planning
+# ClassStudent
 ```
 {
     id: integer
-    user: relation(user, oneToOne)
-    lessons: relation(lesson, manyToMany)
+    idLesson: integer (relation(lesson, oneToOne))
+    idUsers: Array[integer] (relation(user, manyToMany))
 }
 ```
 
@@ -30,29 +31,33 @@
 * **Success Response:**  
 * **Code:** 200  
   **Content:**  
-```
+```-
 [
-    [
-        "id",
-        "name",
-        "description",
-        "dateBegin",
-        "dateEnd",
-        "place"
-    ],
-    [
-        "id",
-        "name",
-        "description",
-        "dateBegin",
-        "dateEnd",
-        "place"
-    ]
+  1:
+    {
+        "id" : 1,
+        "idTeacher" : 1,
+        "name" : "API REST",
+        "description" : "Fait des cours de Web",
+        "dateBegin" : 15/12/2023 8:00,
+        "dateEnd" : 15/12/2023 10:00,
+        "place" : "Bâtiment 1, salle 1"
+    },
+  2:
+    {
+        "id" : 2,
+        "idTeacher" : 1,
+        "name" : "API REST",
+        "description" : "Fait des cours de Web",
+        "dateBegin" : 15/12/2023 10:00,
+        "dateEnd" : 15/12/2023 12:00,
+        "place" : "Bâtiment 1, salle 1"
+    }
 ]
 ```
-**GET /planning**
+**GET /ClassStudent**
 ----
-  Retourne tous les planning
+  Retourne tous les classes d'étudiants
 * **URL Params**  
   None
 * **Data Params**  
@@ -64,16 +69,26 @@
   **Content:** 
 ```
 [
-    [
-        "id"
-        "user" <user_Object> ,
-        "lessons" [ <lessons_Object> ]
-    ],
-    [
-        "id"
-        "user" <user_Object> ,
-        "lessons" [ <lessons_Object> ]
-    ]
+  1:
+    {
+      "id": 1
+      "idLesson": 1 
+      "idUsers": [
+        1,
+        2,
+        3
+      ]
+    },
+  2:
+    {
+      "id": 2
+      "idLesson": 2 
+      "idUsers": [
+        1,
+        2,
+        3
+      ]
+    }
 ]
 ```
 
@@ -81,7 +96,7 @@
 ----
   Retourne un cours précis
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idLesson=[integer]`
 * **Data Params**  
   None
 * **Headers**  
@@ -91,14 +106,15 @@
 * **Code:** 200  
   **Content:**  `{ <lessons_Object> }` 
     ```
-  [
-        "id",
-        "nom",
-        "description",
-        "dateDebut",
-        "dateFin",
-        "lieu"
-    ]
+  {
+    "id" : 1,
+    "idTeacher" : 1,
+    "name" : "API REST",
+    "description" : "Fait des cours de Web",
+    "dateBegin" : 15/12/2023 8:00,
+    "dateEnd" : 15/12/2023 10:00,
+    "place" : "Bâtiment 1, salle 1"
+  }
   ```
 * **Error Response:**  
   * **Code:** 404  
@@ -111,7 +127,7 @@
 ----
   Retourne la liste des cours d'un utilisateur
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idUser=[integer]`
 * **Data Params**  
   None
 * **Headers**  
@@ -120,24 +136,28 @@
 * **Success Response:** 
 * **Code:** 200  
   **Content:**  `{ <lessons_Object> }` 
-    ```
+```
   [
-    [
-        "id",
-        "nom",
-        "description",
-        "dateDebut",
-        "dateFin",
-        "lieu"
-    ],
-    [
-        "id",
-        "nom",
-        "description",
-        "dateDebut",
-        "dateFin",
-        "lieu"
-    ]
+    1:
+      {
+          "id" : 1,
+          "idTeacher" : 1,
+          "name" : "API REST",
+          "description" : "Fait des cours de Web",
+          "dateBegin" : 15/12/2023 8:00,
+          "dateEnd" : 15/12/2023 10:00,
+          "place" : "Bâtiment 1, salle 1"
+      },
+    2:
+      {
+          "id" : 2,
+          "idTeacher" : 1,
+          "name" : "API REST",
+          "description" : "Fait des cours de Web",
+          "dateBegin" : 15/12/2023 10:00,
+          "dateEnd" : 15/12/2023 12:00,
+          "place" : "Bâtiment 1, salle 1"
+      }
   ]
   ```
 * **Error Response:**  
@@ -147,11 +167,11 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**GET /planning/:id**
+**GET /classStudent/:id**
 ----
-  Retourne un planning précis
+  Retourne les membres d'une classe
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idClassStudent=[integer]`
 * **Data Params**  
   None
 * **Headers**  
@@ -161,15 +181,19 @@
 * **Code:** 200  
   **Content:**  `{ <lessons_Object> }` 
     ```
-  [
-        "id"
-        "user" <user_Object> ,
-        "lessons" <lessons_Object> 
-    ]
+  {
+      "id": 1
+      "idLesson": 1 
+      "idUsers": [
+        1,
+        2,
+        3
+      ]
+    }
   ```
 * **Error Response:**  
   * **Code:** 404  
-  **Content:** `{ error : "Le planning n'existe pas" }`  
+  **Content:** `{ error : "La classe n'existe pas" }`  
   OR  
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
@@ -184,20 +208,21 @@
 * **Data Params**  
 ```
   {
-    "name" : string,
-    "description" : text,
-    "dateBegin" : datetime,
-    "dateEnd": datetime,
-    "place" : string
+    "idTeacher" : 1,
+    "name" : "Docker",
+    "description" : "FCours de Docker",
+    "dateBegin" : 15/12/2023 14:00,
+    "dateEnd" : 15/12/2023 16:00,
+    "place" : "Bâtiment 2, salle 1"
   }
 ```
 * **Success Response:**  
 * **Code:** 200  
   **Content:**  `{ <lesson_object> }` 
 
-**POST /planning**
+**POST /classStudent**
 ----
-  Créer un nouveau planning d'un utilisateur
+  Créer une nouvelle classe
 * **URL Params**  
   None
 * **Headers**  
@@ -205,27 +230,33 @@
 * **Data Params**  
 ```
   {
-    "user":<user_Object> ,
-    "lessons": <lessons_Object> 
+    "idLesson": 1 
+    "idUsers": [
+      1,
+      2,
+      3
+    ]
   }
 ```
 * **Success Response:**  
 * **Code:** 200  
-  **Content:**  `{ <planning_object> }` 
+  **Content:**  `{ <classStudent_object> }` 
 
 **PUT /lessons/:id**
 ----
   Met à jour les champs du cours spécifié et renvoie l'objet mis à jour.
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idLesson=[integer]`
 * **Data Params**  
 ```
   {
-  	"name" : string,
-    "description" : text,
-    "dateBegin" : datetime,
-    "dateEnd": datetime,
-    "place" : string
+    "id" : 1,
+    "idTeacher" : 2,
+    "name" : "API REST",
+    "description" : "Fait des cours de Web",
+    "dateBegin" : 15/12/2023 8:00,
+    "dateEnd" : 15/12/2023 10:00,
+    "place" : "Bâtiment 1, salle 1"
   }
 ```
 * **Headers**  
@@ -241,17 +272,21 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**PUT /planning/:id**
+**PUT /ClassStudent/:id**
 ----
-  Met à jour les champs du cours spécifié et renvoie l'objet mis à jour.
-  Permet d'ajouter et retirer un cours à un planning
+  Met à jour les étudiants de la classe et renvoie l'objet mis à jour.
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idClassStudent=[integer]`
 * **Data Params**  
 ```
   {
-  	"user": <user_id> ,
-    "lessons": <lessons_Object> 
+  	"id": 1
+    "idLesson": 2 
+    "idUsers": [
+      1,
+      2,
+      3
+    ] 
   }
 ```
 * **Headers**  
@@ -271,7 +306,7 @@
 ----
   Supprime un cours
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idLesson=[integer]`
 * **Data Params**  
   None
 * **Headers**  
@@ -290,7 +325,7 @@
 ----
   Supprime un cours d'un utilisateur
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idUser=[integer]`
 * **Data Params**  
   None
 * **Headers**  
@@ -305,11 +340,11 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**DELETE /planning/:id**
+**DELETE /ClassStudent/:id**
 ----
-  Supprime un planning
+  Supprime une classe d'étudiant
 * **URL Params**  
-  *Required:* `id=[integer]`
+  *Required:* `idClasStudent=[integer]`
 * **Data Params**  
   None
 * **Headers**  
@@ -319,7 +354,7 @@
   * **Code:** 204 
 * **Error Response:**  
   * **Code:** 404  
-  **Content:** `{ error : "Le planning n'existe pas" }`  
+  **Content:** `{ error : "La classe n'existe pas" }`  
   OR  
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
