@@ -25,7 +25,7 @@ class LessonController extends AbstractController
     public function LessonAPI(Request $request): Response
     {
         if ($request->isMethod('GET')) {
-            return $this->getLessonsAPI();
+            return $this->getLessonsAPI($request);
         } elseif ($request->isMethod('POST')) {
             return $this->postLessonsAPI($request);
         }
@@ -34,10 +34,33 @@ class LessonController extends AbstractController
         return $this->json($data);
     }
 
-    public function GetLessonsAPI(): Response
+    public function GetLessonsAPI(Request $request): Response
     {
-        $data = $this->lessonRepository->findAll();
-        return $this->json($data);
+        $id = $request->query->get('id');
+        $idTeacher = $request->query->get('idTeacher');
+        $name = $request->query->get('name');
+        $place = $request->query->get('place');
+
+        $criteria = [];
+
+        if ($id !== null) {
+            $criteria['id'] = $id;
+        }
+
+        if ($idTeacher !== null) {
+            $criteria['idTeacher'] = $idTeacher;
+        }
+
+        if ($name !== null) {
+            $criteria['name'] = $name;
+        }
+
+        if ($place !== null) {
+            $criteria['place'] = $place;
+        }
+
+        $filteredLessons = $this->lessonRepository->findBy($criteria);
+        return $this->json($filteredLessons);
     }
 
     private function PostLessonsAPI(Request $request): Response
@@ -62,8 +85,12 @@ class LessonController extends AbstractController
 
         return $this->json([
             'id' => $lesson->getId(),
+            'idTeacher' => $lesson->getIdTeacher(),
             'name' => $lesson->getName(),
             'description' => $lesson->getDescription(),
+            'dateBegin' => $lesson->getDateBegin(),
+            'dateEnd' => $lesson->getDateEnd(),
+            'place' => $lesson->getPlace(),
         ], Response::HTTP_CREATED);
     }
 
