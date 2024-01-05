@@ -60,6 +60,7 @@ class ClassStudentController extends AbstractController
     {
         $id = $request->query->get('id');
         $idLesson = $request->query->get('idLesson');
+        $idUser = $request->query->get('idUser');
 
         $criteria = [];
 
@@ -72,6 +73,26 @@ class ClassStudentController extends AbstractController
         }
 
         $filteredClassStudent = $this->classStudentRepository->findBy($criteria);
+        $filteredClassStudentCopie = $filteredClassStudent;
+
+
+        if ($idUser !== null) {
+
+
+            foreach ($filteredClassStudentCopie as $key => $class)
+            {
+                $success = false;
+
+                foreach ($class->getIdUsers() as $student => $idStudent) {
+                    if ($idUser === (string) $idStudent) {
+                        $success = true;
+                    }
+                }
+                if (!$success) {
+                    unset($filteredClassStudent[$key]);
+                }
+            }
+        }
 
         return $this->json($filteredClassStudent);
     }
