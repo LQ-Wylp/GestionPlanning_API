@@ -39,6 +39,10 @@ class ClassStudentController extends AbstractController
                 return $this->PutClassStudentsAPI($request);
                 break;
 
+            case 'DELETE':
+                return $this->DeleteClassStudentsAPI($request);
+                break;
+
             default:
                 throw new \InvalidArgumentException("Méthode HTTP non gérée : $requestMethod");
         }
@@ -103,6 +107,20 @@ class ClassStudentController extends AbstractController
             'id' => $classStudent->getId(),
             'idLesson' => $classStudent->getIdLesson(),
             'idUsers' => $classStudent->getIdUsers(),
+        ], Response::HTTP_OK);
+    }
+
+    private function DeleteClassStudentsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        $this->entityManager->remove($classStudent);
+        $this->entityManager->flush();
+
+        return $this->json([
+            "message" => "La classe a bien été supprimée"
         ], Response::HTTP_OK);
     }
 }

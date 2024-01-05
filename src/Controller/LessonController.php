@@ -35,9 +35,12 @@ class LessonController extends AbstractController
                 return $this->postLessonsAPI($request);
                 break;
 
-            
             case 'PUT':
                 return $this->putLessonsAPI($request);
+                break;
+
+            case 'DELETE':
+                return $this->deleteLessonsAPI($request);
                 break;
 
             default:
@@ -137,6 +140,20 @@ class LessonController extends AbstractController
             'dateBegin' => $lesson->getDateBegin(),
             'dateEnd' => $lesson->getDateEnd(),
             'place' => $lesson->getPlace(),
+        ], Response::HTTP_OK);
+    }
+
+    private function DeleteLessonsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $lesson = $this->lessonRepository->find($requestData['id']);
+
+        $this->entityManager->remove($lesson);
+        $this->entityManager->flush();
+
+        return $this->json([
+            "message" => "Le cours a bien été supprimée"
         ], Response::HTTP_OK);
     }
 }
