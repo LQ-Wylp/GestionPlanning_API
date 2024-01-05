@@ -248,7 +248,7 @@
   Example: Add user
 ```
   {
-  	"id": 1
+  	"id": 1,
     "idUsers": [
       1,
       2,
@@ -263,8 +263,8 @@
 * **Success Response:** 
 ```
   {
-  	"id": 1
-    "idLesson": 2 
+  	"id": 1,
+    "idLesson": 2,
     "idUsers": [
       1,
       2,
@@ -296,11 +296,7 @@
 * **Success Response:** 
   * **Code:** 204 
   * **Content:**
-  ```
-  {
-  	"message" => "Le cours a bien été supprimée"
-  }
-  ```
+  `{ "message" => "Le cours a bien été supprimée" }`
 * **Error Response:**  
   * **Code:** 404  
   **Content:** `{ error : "Le cours n'existe pas" }`  
@@ -318,11 +314,7 @@
 * **Success Response:** 
   * **Code:** 204 
   * **Content:**
-  ```
-  {
-  	"message" => "La classe a bien été supprimée"
-  }
-  ```
+  `{ "message" => "La classe a bien été supprimée"}`
 * **Error Response:**  
   * **Code:** 404  
   **Content:** `{ error : "La classe n'existe pas" }`  
