@@ -82,8 +82,8 @@
 [
   1:
     {
-      "id": 1
-      "idLesson": 1 
+      "id": 1,
+      "idLesson": 1,
       "idUsers": [
         1,
         2,
@@ -92,8 +92,8 @@
     },
   2:
     {
-      "id": 2
-      "idLesson": 2 
+      "id": 2,
+      "idLesson": 2,
       "idUsers": [
         1,
         2,
@@ -135,7 +135,7 @@
 * **Data Params**  
 ```
   {
-    "idLesson": 1 
+    "idLesson": 1,
     "idUsers": [
       1,
       2,
@@ -182,8 +182,8 @@
   *Required:* `id=[integer]`
 ```
   {
-  	"id": 1
-    "idLesson": 2 
+  	"id": 1,
+    "idLesson": 2,
     "idUsers": [
       1,
       2,
