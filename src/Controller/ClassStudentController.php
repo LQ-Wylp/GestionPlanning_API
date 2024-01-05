@@ -24,11 +24,33 @@ class ClassStudentController extends AbstractController
     #[Route('/classStudents', name: 'api_students')]
     public function ClassStudentAPI(Request $request): Response
     {
-        if ($request->isMethod('GET')) {
-            return $this->GetClassStudentsAPI($request);
-        } elseif ($request->isMethod('POST')) {
-            return $this->PostClassStudentsAPI($request);
+        $requestMethod = $request->getMethod();
+
+        switch ($requestMethod) {
+            case 'GET':
+                return $this->GetClassStudentsAPI($request);
+                break;
+
+            case 'POST':
+                return $this->PostClassStudentsAPI($request);
+                break;
+            
+            case 'PATCH':
+                return $this->PatchClassStudentsAPI($request);
+                break;
+
+            case 'PUT':
+                return $this->PutClassStudentsAPI($request);
+                break;
+
+            case 'DELETE':
+                return $this->DeleteClassStudentsAPI($request);
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Méthode HTTP non gérée : $requestMethod");
         }
+
 
         $data = $this->classStudentRepository->findAll();
         return $this->json($data);
@@ -71,5 +93,80 @@ class ClassStudentController extends AbstractController
             'idLesson' => $classStudent->getIdLesson(),
             'idUsers' => $classStudent->getIdUsers(),
         ], Response::HTTP_CREATED);
+    }
+
+    private function PatchClassStudentsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        if (!$classStudent) {
+            return $this->json([
+                'error' => 'La classe n\'existe pas'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (isset($requestData['idLesson'])) {
+            $classStudent->setIdLesson($requestData['idLesson']);
+        }
+
+        if (isset($requestData['idUsers'])) {
+            $classStudent->setIdUsers($requestData['idUsers']);
+        }
+
+        $this->entityManager->persist($classStudent);
+        $this->entityManager->flush();
+
+        return $this->json([
+            'id' => $classStudent->getId(),
+            'idLesson' => $classStudent->getIdLesson(),
+            'idUsers' => $classStudent->getIdUsers(),
+        ], Response::HTTP_OK);
+    }
+
+    private function PutClassStudentsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        if (!$classStudent) {
+            return $this->json([
+                'error' => 'La classe n\'existe pas'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $classStudent->setIdLesson($requestData['idLesson']);
+        $classStudent->setIdUsers($requestData['idUsers']);
+
+        $this->entityManager->persist($classStudent);
+        $this->entityManager->flush();
+
+        return $this->json([
+            'id' => $classStudent->getId(),
+            'idLesson' => $classStudent->getIdLesson(),
+            'idUsers' => $classStudent->getIdUsers(),
+        ], Response::HTTP_OK);
+    }
+
+    private function DeleteClassStudentsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        if (!$classStudent) {
+            return $this->json([
+                'error' => 'La classe n\'existe pas'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityManager->remove($classStudent);
+        $this->entityManager->flush();
+
+        return $this->json([
+            "message" => "La classe a bien été supprimée"
+        ], Response::HTTP_OK);
     }
 }
