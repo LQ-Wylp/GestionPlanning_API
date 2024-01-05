@@ -288,7 +288,7 @@
 ----
   Supprime un cours
 * **URL Params**  
-  *Required:* `idLesson=[integer]`
+  *Required:* `id=[integer]`
 * **Data Params**  
   None
 * **Headers**  
