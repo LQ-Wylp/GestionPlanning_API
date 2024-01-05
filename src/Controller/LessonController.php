@@ -118,9 +118,10 @@ class LessonController extends AbstractController
 
     private function PatchLessonsAPI(Request $request): Response
     {
-        $requestData = json_decode($request->getContent(), true);
+        $id = $request->query->get('id');
+    $requestData = json_decode($request->getContent(), true);
 
-        $lesson = $this->lessonRepository->find($requestData['id']);
+    $lesson = $this->lessonRepository->find($id);
 
         if (!$lesson) {
             return $this->json([
@@ -170,9 +171,10 @@ class LessonController extends AbstractController
 
     private function PutLessonsAPI(Request $request): Response
     {
+        $id = $request->query->get('id');
         $requestData = json_decode($request->getContent(), true);
-
-        $lesson = $this->lessonRepository->find($requestData['id']);
+    
+        $lesson = $this->lessonRepository->find($id);
 
         if (!$lesson) {
             return $this->json([
