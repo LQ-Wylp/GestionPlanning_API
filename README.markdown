@@ -21,11 +21,17 @@
 
 **GET /lessons**
 ----
-  Retourne tous les cours
-* **URL Params**  
-  None
-* **Data Params**  
-  None
+  Retourne un ou des cours
+* **Data Params** 
+  * *Allowed:* `id=[integer]`
+  * *Allowed:* `idTeacher=[integer]`
+  * *Allowed:* `name=[string]`
+  * *Allowed:* `place=[string]`
+
+  **Example:** 
+  ```-
+  /lessons?id=1&idTeacher=1&name=API REST&place=salle 1
+  ```
 * **Headers**  
   Content-Type: application/json  
 * **Success Response:**  
@@ -57,11 +63,16 @@
 ```
 **GET /ClassStudent**
 ----
-  Retourne tous les classes d'étudiants
-* **URL Params**  
-  None
+  Retourne un ou des classes d'étudiants
 * **Data Params**  
-  None
+  * *Allowed:* `id=[integer]`
+  * *Allowed:* `idLesson=[integer]`
+  * *Allowed:* `idUser=[integer]`
+
+  **Example:** 
+  ```-
+  /ClassStudent?id=1&idLesson=1&idUser=2
+  ```
 * **Headers**  
   Content-Type: application/json  
 * **Success Response:**  
@@ -91,112 +102,6 @@
     }
 ]
 ```
-
-**GET /lessons/:id**
-----
-  Retourne un cours précis
-* **URL Params**  
-  *Required:* `idLesson=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-* **Code:** 200  
-  **Content:**  `{ <lessons_Object> }` 
-    ```
-  {
-    "id" : 1,
-    "idTeacher" : 1,
-    "name" : "API REST",
-    "description" : "Fait des cours de Web",
-    "dateBegin" : 15/12/2023 8:00,
-    "dateEnd" : 15/12/2023 10:00,
-    "place" : "Bâtiment 1, salle 1"
-  }
-  ```
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "Le cours n'existe pas" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
-
-**GET /lessons/user/:id**
-----
-  Retourne la liste des cours d'un utilisateur
-* **URL Params**  
-  *Required:* `idUser=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-* **Code:** 200  
-  **Content:**  `{ <lessons_Object> }` 
-```
-  [
-    1:
-      {
-          "id" : 1,
-          "idTeacher" : 1,
-          "name" : "API REST",
-          "description" : "Fait des cours de Web",
-          "dateBegin" : 15/12/2023 8:00,
-          "dateEnd" : 15/12/2023 10:00,
-          "place" : "Bâtiment 1, salle 1"
-      },
-    2:
-      {
-          "id" : 2,
-          "idTeacher" : 1,
-          "name" : "API REST",
-          "description" : "Fait des cours de Web",
-          "dateBegin" : 15/12/2023 10:00,
-          "dateEnd" : 15/12/2023 12:00,
-          "place" : "Bâtiment 1, salle 1"
-      }
-  ]
-  ```
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "L'utilisateur n'a aucun cours affilié'" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
-
-**GET /classStudent/:id**
-----
-  Retourne les membres d'une classe
-* **URL Params**  
-  *Required:* `idClassStudent=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-* **Code:** 200  
-  **Content:**  `{ <lessons_Object> }` 
-    ```
-  {
-      "id": 1
-      "idLesson": 1 
-      "idUsers": [
-        1,
-        2,
-        3
-      ]
-    }
-  ```
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "La classe n'existe pas" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
 **POST /lessons**
 ----
@@ -242,12 +147,11 @@
 * **Code:** 200  
   **Content:**  `{ <classStudent_object> }` 
 
-**PUT /lessons/:id**
+**PUT /lessons**
 ----
-  Met à jour les champs du cours spécifié et renvoie l'objet mis à jour.
-* **URL Params**  
-  *Required:* `idLesson=[integer]`
+  Met à jour un cours spécifié et renvoie l'objet mis à jour.
 * **Data Params**  
+  *Required:* `id=[integer]`
 ```
   {
     "id" : 1,
@@ -261,7 +165,6 @@
 ```
 * **Headers**  
   Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
 * **Success Response:** 
 * **Code:** 200  
   **Content:**  `{ <lessons_object> }`  
@@ -272,12 +175,11 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**PUT /ClassStudent/:id**
+**PUT /ClassStudent**
 ----
-  Met à jour les étudiants de la classe et renvoie l'objet mis à jour.
-* **URL Params**  
-  *Required:* `idClassStudent=[integer]`
+  Met à jour un étudiant de la classe et renvoie l'objet mis à jour.
 * **Data Params**  
+  *Required:* `id=[integer]`
 ```
   {
   	"id": 1
@@ -291,7 +193,6 @@
 ```
 * **Headers**  
   Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
 * **Success Response:** 
 * **Code:** 200  
   **Content:**  `{ <lessons_object> }`  
@@ -302,7 +203,88 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**DELETE /lessons/:id**
+**PATCH /lessons**
+----
+  Met à jour un ou des champs du cours spécifié et renvoie l'objet mis à jour.
+* **Data Params**  
+  *Required:* `id=[integer]`
+
+  Example: Change name
+```
+  {
+    "id" : 1,
+    "name" : "Cloud Computing",
+  }
+```
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:** 
+```
+  {
+    "id" : 1,
+    "idTeacher" : 2,
+    "name" : "Cloud Computing",
+    "description" : "Fait des cours de Web",
+    "dateBegin" : 15/12/2023 8:00,
+    "dateEnd" : 15/12/2023 10:00,
+    "place" : "Bâtiment 1, salle 1"
+  }
+```
+* **Code:** 200  
+  **Content:**  `{ <lessons_object> }`  
+* **Error Response:**  
+  * **Code:** 404  
+  **Content:** `{ error : "Le cours n'existe pas" }`  
+  OR  
+  * **Code:** 401  
+  **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
+
+**PATCH /ClassStudent**
+----
+  Met à jour une ou des informations d'une classe et renvoie l'objet mis à jour.
+* **Data Params**  
+  *Required:* `id=[integer]`
+
+  Example: Add user
+```
+  {
+  	"id": 1
+    "idUsers": [
+      1,
+      2,
+      3, 
+      4, 
+      5
+    ] 
+  }
+```
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:** 
+```
+  {
+  	"id": 1
+    "idLesson": 2 
+    "idUsers": [
+      1,
+      2,
+      3, 
+      4, 
+      5
+    ] 
+  }
+```
+* **Code:** 200  
+  **Content:**  `{ <lessons_object> }`  
+* **Error Response:**  
+  * **Code:** 404  
+  **Content:** `{ error : "Le cours n'existe pas" }`  
+  OR  
+  * **Code:** 401  
+  **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
+
+
+**DELETE /lessons**
 ----
   Supprime un cours
 * **URL Params**  
@@ -311,9 +293,14 @@
   None
 * **Headers**  
   Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
 * **Success Response:** 
   * **Code:** 204 
+  * **Content:**
+  ```
+  {
+  	"message" => "Le cours a bien été supprimée"
+  }
+  ```
 * **Error Response:**  
   * **Code:** 404  
   **Content:** `{ error : "Le cours n'existe pas" }`  
@@ -321,37 +308,21 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**DELETE /lessons/user/:id**
+**DELETE /ClassStudent**
 ----
-  Supprime un cours d'un utilisateur
-* **URL Params**  
-  *Required:* `idUser=[integer]`
+  Supprime une classe
 * **Data Params**  
-  None
+  *Required:* `id=[integer]`
 * **Headers**  
   Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
 * **Success Response:** 
   * **Code:** 204 
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "Le cours n'existe pas pour cette utilisateur" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
-
-**DELETE /ClassStudent/:id**
-----
-  Supprime une classe d'étudiant
-* **URL Params**  
-  *Required:* `idClasStudent=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-  * **Code:** 204 
+  * **Content:**
+  ```
+  {
+  	"message" => "La classe a bien été supprimée"
+  }
+  ```
 * **Error Response:**  
   * **Code:** 404  
   **Content:** `{ error : "La classe n'existe pas" }`  
