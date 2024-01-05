@@ -34,6 +34,10 @@ class LessonController extends AbstractController
             case 'POST':
                 return $this->postLessonsAPI($request);
                 break;
+            
+            case 'PATCH':
+                return $this->patchLessonsAPI($request);
+                break;
 
             case 'PUT':
                 return $this->putLessonsAPI($request);
@@ -77,6 +81,7 @@ class LessonController extends AbstractController
         }
 
         $filteredLessons = $this->lessonRepository->findBy($criteria);
+
         return $this->json($filteredLessons);
     }
 
@@ -111,11 +116,69 @@ class LessonController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
+    private function PatchLessonsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $lesson = $this->lessonRepository->find($requestData['id']);
+
+        if (!$lesson) {
+            return $this->json([
+                "message" => "Le cours n'existe pas"
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (isset($requestData['idTeacher'])) {
+            $lesson->setIdTeacher($requestData['idTeacher']);
+        }
+
+        if (isset($requestData['name'])) {
+            $lesson->setName($requestData['name']);
+        }
+
+        if (isset($requestData['description'])) {
+            $lesson->setDescription($requestData['description']);
+        }
+
+        if (isset($requestData['dateBegin'])) {
+            $dateBegin = new \DateTime($requestData['dateBegin']);
+            $lesson->setDateBegin($dateBegin);
+        }
+
+        if (isset($requestData['dateEnd'])) {
+            $dateEnd = new \DateTime($requestData['dateEnd']);
+            $lesson->setDateEnd($dateEnd);
+        }
+
+        if (isset($requestData['place'])) {
+            $lesson->setPlace($requestData['place']);
+        }
+
+        $this->entityManager->persist($lesson);
+        $this->entityManager->flush();
+
+        return $this->json([
+            'id' => $lesson->getId(),
+            'idTeacher' => $lesson->getIdTeacher(),
+            'name' => $lesson->getName(),
+            'description' => $lesson->getDescription(),
+            'dateBegin' => $lesson->getDateBegin(),
+            'dateEnd' => $lesson->getDateEnd(),
+            'place' => $lesson->getPlace(),
+        ], Response::HTTP_OK);
+    }
+
     private function PutLessonsAPI(Request $request): Response
     {
         $requestData = json_decode($request->getContent(), true);
 
         $lesson = $this->lessonRepository->find($requestData['id']);
+
+        if (!$lesson) {
+            return $this->json([
+                "message" => "Le cours n'existe pas"
+            ], Response::HTTP_NOT_FOUND);
+        }
 
         $lesson->setIdTeacher($requestData['idTeacher']);
         $lesson->setName($requestData['name']);
@@ -148,6 +211,12 @@ class LessonController extends AbstractController
         $requestData = json_decode($request->getContent(), true);
 
         $lesson = $this->lessonRepository->find($requestData['id']);
+
+        if (!$lesson) {
+            return $this->json([
+                "message" => "Le cours n'existe pas"
+            ], Response::HTTP_NOT_FOUND);
+        }
 
         $this->entityManager->remove($lesson);
         $this->entityManager->flush();

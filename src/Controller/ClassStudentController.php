@@ -34,6 +34,10 @@ class ClassStudentController extends AbstractController
             case 'POST':
                 return $this->PostClassStudentsAPI($request);
                 break;
+            
+            case 'PATCH':
+                return $this->PatchClassStudentsAPI($request);
+                break;
 
             case 'PUT':
                 return $this->PutClassStudentsAPI($request);
@@ -91,11 +95,47 @@ class ClassStudentController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
+    private function PatchClassStudentsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        if (!$classStudent) {
+            return $this->json([
+                'error' => 'La classe n\'existe pas'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (isset($requestData['idLesson'])) {
+            $classStudent->setIdLesson($requestData['idLesson']);
+        }
+
+        if (isset($requestData['idUsers'])) {
+            $classStudent->setIdUsers($requestData['idUsers']);
+        }
+
+        $this->entityManager->persist($classStudent);
+        $this->entityManager->flush();
+
+        return $this->json([
+            'id' => $classStudent->getId(),
+            'idLesson' => $classStudent->getIdLesson(),
+            'idUsers' => $classStudent->getIdUsers(),
+        ], Response::HTTP_OK);
+    }
+
     private function PutClassStudentsAPI(Request $request): Response
     {
         $requestData = json_decode($request->getContent(), true);
 
         $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        if (!$classStudent) {
+            return $this->json([
+                'error' => 'La classe n\'existe pas'
+            ], Response::HTTP_NOT_FOUND);
+        }
 
         $classStudent->setIdLesson($requestData['idLesson']);
         $classStudent->setIdUsers($requestData['idUsers']);
@@ -115,6 +155,12 @@ class ClassStudentController extends AbstractController
         $requestData = json_decode($request->getContent(), true);
 
         $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        if (!$classStudent) {
+            return $this->json([
+                'error' => 'La classe n\'existe pas'
+            ], Response::HTTP_NOT_FOUND);
+        }
 
         $this->entityManager->remove($classStudent);
         $this->entityManager->flush();
