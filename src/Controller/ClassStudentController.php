@@ -24,11 +24,25 @@ class ClassStudentController extends AbstractController
     #[Route('/classStudents', name: 'api_students')]
     public function ClassStudentAPI(Request $request): Response
     {
-        if ($request->isMethod('GET')) {
-            return $this->GetClassStudentsAPI($request);
-        } elseif ($request->isMethod('POST')) {
-            return $this->PostClassStudentsAPI($request);
+        $requestMethod = $request->getMethod();
+
+        switch ($requestMethod) {
+            case 'GET':
+                return $this->GetClassStudentsAPI($request);
+                break;
+
+            case 'POST':
+                return $this->PostClassStudentsAPI($request);
+                break;
+
+            case 'PUT':
+                return $this->PutClassStudentsAPI($request);
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Méthode HTTP non gérée : $requestMethod");
         }
+
 
         $data = $this->classStudentRepository->findAll();
         return $this->json($data);
@@ -71,5 +85,24 @@ class ClassStudentController extends AbstractController
             'idLesson' => $classStudent->getIdLesson(),
             'idUsers' => $classStudent->getIdUsers(),
         ], Response::HTTP_CREATED);
+    }
+
+    private function PutClassStudentsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $classStudent = $this->classStudentRepository->find($requestData['id']);
+
+        $classStudent->setIdLesson($requestData['idLesson']);
+        $classStudent->setIdUsers($requestData['idUsers']);
+
+        $this->entityManager->persist($classStudent);
+        $this->entityManager->flush();
+
+        return $this->json([
+            'id' => $classStudent->getId(),
+            'idLesson' => $classStudent->getIdLesson(),
+            'idUsers' => $classStudent->getIdUsers(),
+        ], Response::HTTP_OK);
     }
 }

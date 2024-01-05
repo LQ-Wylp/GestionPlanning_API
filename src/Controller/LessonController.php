@@ -24,10 +24,24 @@ class LessonController extends AbstractController
     #[Route('/lessons', name: 'api_lesson')]
     public function LessonAPI(Request $request): Response
     {
-        if ($request->isMethod('GET')) {
-            return $this->getLessonsAPI($request);
-        } elseif ($request->isMethod('POST')) {
-            return $this->postLessonsAPI($request);
+        $requestMethod = $request->getMethod();
+
+        switch ($requestMethod) {
+            case 'GET':
+                return $this->getLessonsAPI($request);
+                break;
+
+            case 'POST':
+                return $this->postLessonsAPI($request);
+                break;
+
+            
+            case 'PUT':
+                return $this->putLessonsAPI($request);
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Méthode HTTP non gérée : $requestMethod");
         }
 
         $data = $this->lessonRepository->findAll();
@@ -94,4 +108,35 @@ class LessonController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
+    private function PutLessonsAPI(Request $request): Response
+    {
+        $requestData = json_decode($request->getContent(), true);
+
+        $lesson = $this->lessonRepository->find($requestData['id']);
+
+        $lesson->setIdTeacher($requestData['idTeacher']);
+        $lesson->setName($requestData['name']);
+        $lesson->setDescription($requestData['description']);
+
+        $dateBegin = new \DateTime($requestData['dateBegin']);
+        $dateEnd = new \DateTime($requestData['dateEnd']);
+
+        $lesson->setDateBegin($dateBegin);
+        $lesson->setDateEnd($dateEnd);
+
+        $lesson->setPlace($requestData['place']);
+
+        $this->entityManager->persist($lesson);
+        $this->entityManager->flush();
+
+        return $this->json([
+            'id' => $lesson->getId(),
+            'idTeacher' => $lesson->getIdTeacher(),
+            'name' => $lesson->getName(),
+            'description' => $lesson->getDescription(),
+            'dateBegin' => $lesson->getDateBegin(),
+            'dateEnd' => $lesson->getDateEnd(),
+            'place' => $lesson->getPlace(),
+        ], Response::HTTP_OK);
+    }
 }
