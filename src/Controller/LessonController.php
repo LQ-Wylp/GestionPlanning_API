@@ -208,9 +208,9 @@ class LessonController extends AbstractController
 
     private function DeleteLessonsAPI(Request $request): Response
     {
-        $id = $request->query->get('id');
+        $requestData = json_decode($request->getContent(), true);
 
-        $lesson = $this->lessonRepository->find($id);
+        $lesson = $this->lessonRepository->find($requestData['id']);
 
         if (!$lesson) {
             return $this->json([
