@@ -10,7 +10,7 @@
     place: string
 }
 ```
-# ClassStudent
+# classStudents
 ```
 {
     id: integer
@@ -61,7 +61,7 @@
     }
 ]
 ```
-**GET /ClassStudent**
+**GET /classStudents**
 ----
   Retourne un ou des classes d'étudiants
 * **Data Params**  
@@ -71,7 +71,7 @@
 
   **Example:** 
   ```-
-  /ClassStudent?id=1&idLesson=1&idUser=2
+  /classStudents?id=1&idLesson=1&idUser=2
   ```
 * **Headers**  
   Content-Type: application/json  
@@ -125,7 +125,7 @@
 * **Code:** 200  
   **Content:**  `{ <lesson_object> }` 
 
-**POST /classStudent**
+**POST /classStudents**
 ----
   Créer une nouvelle classe
 * **URL Params**  
@@ -145,7 +145,7 @@
 ```
 * **Success Response:**  
 * **Code:** 200  
-  **Content:**  `{ <classStudent_object> }` 
+  **Content:**  `{ <classStudents_object> }` 
 
 **PUT /lessons**
 ----
@@ -175,7 +175,7 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**PUT /ClassStudent**
+**PUT /classStudents**
 ----
   Met à jour un étudiant de la classe et renvoie l'objet mis à jour.
 * **Data Params**  
@@ -239,7 +239,7 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**PATCH /ClassStudent**
+**PATCH /classStudents**
 ----
   Met à jour une ou des informations d'une classe et renvoie l'objet mis à jour.
 * **Data Params**  
@@ -304,7 +304,7 @@
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**DELETE /ClassStudent**
+**DELETE /classStudentss**
 ----
   Supprime une classe
 * **Data Params**  
