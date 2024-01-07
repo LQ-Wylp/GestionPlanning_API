@@ -173,9 +173,9 @@ class ClassStudentController extends AbstractController
 
     private function DeleteClassStudentsAPI(Request $request): Response
     {
-        $requestData = json_decode($request->getContent(), true);
+        $id = $request->query->get('id');
 
-        $classStudent = $this->classStudentRepository->find($requestData['id']);
+        $classStudent = $this->classStudentRepository->find($id);
 
         if (!$classStudent) {
             return $this->json([
