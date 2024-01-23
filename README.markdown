@@ -27,7 +27,7 @@
   * *Allowed:* `idTeacher=[integer]`
   * *Allowed:* `name=[string]`
   * *Allowed:* `place=[string]`
-
+  * *Allowed:* `date="d-m-Y"`
   **Example:** 
   ```-
   /lessons?id=1&idTeacher=1&name=API REST&place=salle 1
