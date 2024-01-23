@@ -1,4 +1,33 @@
+# Initialisation de l'API
+- Déplacer vous dans le projet avec le terminal
+- Executer la commande
+
+```sh
+composer install 
+```
+
+- Puis ouvrer votre gestionnaire de DATABASE (exmple: MySQl) et créer une base de données avec pour nom "planning"
+- Configurer le .env par rapport à la votre
+  
+```sh
+DATABASE_URL="mysql://root:@127.0.0.1:3306/planning"
+```
+
+- Executer dans le terminal la commande pour migrer les tables dans votre DB suivant : 
+
+```sh
+php bin/console d:m:m
+```
+
+Enfin executer le serveur 
+```sh
+ symfony server:start --port=8000
+```
+
+Ce microservice sera alors executer sur le port (127.0.0.1:8000)
+
 # Cours (Lesson)
+Un cours est composé d'un professeur, d'un nom, d'une description, d'une date de début, d'une date de fin et d'un lieu.
 ```
 {
     id: integer
@@ -11,6 +40,7 @@
 }
 ```
 # classStudents
+Une classe d'étudiants est composée d'un cours et d'un ou plusieurs étudiants.
 ```
 {
     id: integer
