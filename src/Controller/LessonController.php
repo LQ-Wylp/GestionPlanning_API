@@ -61,6 +61,7 @@ class LessonController extends AbstractController
         $idTeacher = $request->query->get('idTeacher');
         $name = $request->query->get('name');
         $place = $request->query->get('place');
+        $date = $request->query->get('date');
 
         $criteria = [];
 
@@ -80,9 +81,20 @@ class LessonController extends AbstractController
             $criteria['place'] = $place;
         }
 
-        $filteredLessons = $this->lessonRepository->findBy($criteria);
+        $lessons = $this->lessonRepository->findBy($criteria);
+        $filteredLessons = [];
+        if ($date !== null) {
+            foreach($lessons as $lesson)
+            {
+                if($lesson->getDateBegin()->format("d-m-Y") == $date)
+                {
+                    $filteredLessons[] = $lesson;
+                }
+            }
+            return $this->json($filteredLessons);
+        }
 
-        return $this->json($filteredLessons);
+        return $this->json($lessons);
     }
 
     private function PostLessonsAPI(Request $request): Response
