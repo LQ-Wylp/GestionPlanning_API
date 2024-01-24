@@ -58,6 +58,7 @@ Une classe d'étudiants est composée d'un cours et d'un ou plusieurs étudiants
   * *Allowed:* `name=[string]`
   * *Allowed:* `place=[string]`
   * *Allowed:* `date="d-m-Y"`
+
   **Example:** 
   ```-
   /lessons?id=1&idTeacher=1&name=API REST&place=salle 1
@@ -334,7 +335,7 @@ Une classe d'étudiants est composée d'un cours et d'un ou plusieurs étudiants
   * **Code:** 401  
   **Content:** `{ error : error : "Vous n'êtes pas autorisé à utiliser cette request" }`
 
-**DELETE /classStudentss**
+**DELETE /classStudents**
 ----
   Supprime une classe
 * **Data Params**  
