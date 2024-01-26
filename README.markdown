@@ -26,6 +26,11 @@ Enfin executer le serveur
 
 Ce microservice sera alors executer sur le port (127.0.0.1:8000)
 
+# Informations
+ - La collection Postman est disponible à la racine du projet "GestionPlanningAPI.postman_collection.json"
+ - Un fichier SQL est disponible à la racine du projet "planning.sql" pour avoir une base de donnée avec des données de test
+ - Un fichier markdown est disponible à la racine du projet "taskTeam.markdown" pour connaitre les tâches de chacun
+
 # Cours (Lesson)
 Un cours est composé d'un professeur, d'un nom, d'une description, d'une date de début, d'une date de fin et d'un lieu.
 ```

@@ -34,13 +34,19 @@
 ## Tâches de Julian
 
 - Pour la route *\Lessons* : 
-  - Put
-  - Patch
-  - Delete
+  - Fonction pour la requête PUT
+    - Système de remplacement d'un élément dans la base de donnée
+    - Gestion des erreurs associés
+  - Fonction pour la requête PATCH
+    - Système de modification d'un élément dans la base de donnée
+    - Gestion des erreurs associés
+  - Fonction pour la requête DELETE
+    - Système de suppression d'un élément dans la base de donnée
+    - Gestion des erreurs associés
 
 - Pour la route *\ClassStudents* :
   - Fonction pour la requête PUT
-    - Système de modification d'un élément dans la base de donnée
+    - Système de remplacement d'un élément dans la base de donnée
     - Gestion des erreurs associés
   - Fonction pour la requête PATCH
     - Système de modification d'un élément dans la base de donnée
@@ -58,8 +64,6 @@
   - Création d'une clé SSH
   - Installation et configuration du serveur Apache
   - Installation de la base de données  
-
-- Apport d'aide pour le micro-service front-end
 
 ## Fait en commun 
 - Création d'un readme
