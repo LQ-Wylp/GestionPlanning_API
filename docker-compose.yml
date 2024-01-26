@@ -1,0 +1,31 @@
+services:
+
+    mysql:
+        image: mysql:8
+        container_name: planning-mysql
+        ports:
+            - "3307:3307"
+        environment:
+            MYSQL_ROOT_PASSWORD: 
+            MYSQL_DATABASE: planning
+            MYSQL_USER: user
+            MYSQL_PASSWORD: chaisepriserouge
+        volumes:
+            - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - planning-net
+
+    web:
+        build:
+            context: .
+        ports:
+            - "8000:8000"
+        command: ["symfony", "server:start", "--host=0.0.0.0"]
+        depends_on:
+            - mysql
+        networks:
+            - planning-net
+
+networks:
+    planning-net:
+        driver: bridge

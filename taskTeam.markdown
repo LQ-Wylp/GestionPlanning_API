@@ -19,16 +19,16 @@
       - Système de recherche dans la bdd
       - Possibilité d'ajoute des arguments pour trier et consulter des données précis
       - Gestion des erreurs associés
-  - Fonction pour la request POST
-    - Système d'ajout d'un nouvelle élément dans la base de donnée - - Gestion des erreurs associés
-    - Route /ClassStudents :
-  - Fonction pour la request GET
-    - Système de recherche dans la bdd
-    - Possibilité d'ajoute des arguments pour trier et consulter des données précis
-    - Gestion des erreurs associés
-  - Fonction pour la request POST
-    - Système d'ajout d'un nouvelle élément dans la base de donnée
-    - Gestion des erreurs associés
+    - Fonction pour la request POST
+      - Système d'ajout d'un nouvelle élément dans la base de donnée - - Gestion des erreurs associés
+  - Route */ClassStudents* :
+    - Fonction pour la request GET
+      - Système de recherche dans la bdd
+      - Possibilité d'ajoute des arguments pour trier et consulter des données précis
+      - Gestion des erreurs associés
+    - Fonction pour la request POST
+      - Système d'ajout d'un nouvelle élément dans la base de donnée
+      - Gestion des erreurs associés
 
 
 ## Tâches de Julian
@@ -59,7 +59,9 @@
   - Création de la collection
   - Création des requêtes
 
-- Mise en production sur AWS :
+- Initialisation Docker avec l'aide de Mattéo 
+
+- Mise en production sur AWS avec l'aide de Mael :
   - Création d'une instance EC2
   - Création d'une clé SSH
   - Installation et configuration du serveur Apache

@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 -- Structure de la table `class_student`
 --
 
+CREATE DATABASE IF NOT EXISTS `planning` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 DROP TABLE IF EXISTS `class_student`;
 CREATE TABLE IF NOT EXISTS `class_student` (
   `id` int NOT NULL AUTO_INCREMENT,
