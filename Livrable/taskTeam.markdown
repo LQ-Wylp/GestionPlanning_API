@@ -14,14 +14,14 @@
   - Gestion global des requêtes & redirection en fonction du type de requête
     - Redirection dans le code vers les fonctions adaptés en fonction du type de requête & de la route
     - Création des controllers
-  - Route */Lessons* : 
+  - Route */lessons* : 
     - Fonction pour la request GET
       - Système de recherche dans la bdd
       - Possibilité d'ajoute des arguments pour trier et consulter des données précis
       - Gestion des erreurs associés
     - Fonction pour la request POST
       - Système d'ajout d'un nouvelle élément dans la base de donnée - - Gestion des erreurs associés
-  - Route */ClassStudents* :
+  - Route */classStudents* :
     - Fonction pour la request GET
       - Système de recherche dans la bdd
       - Possibilité d'ajoute des arguments pour trier et consulter des données précis
@@ -33,7 +33,7 @@
 
 ## Tâches de Julian
 
-- Pour la route *\Lessons* : 
+- Pour la route *\lessons* : 
   - Fonction pour la requête PUT
     - Système de remplacement d'un élément dans la base de donnée
     - Gestion des erreurs associés
@@ -44,7 +44,7 @@
     - Système de suppression d'un élément dans la base de donnée
     - Gestion des erreurs associés
 
-- Pour la route *\ClassStudents* :
+- Pour la route *\classStudents* :
   - Fonction pour la requête PUT
     - Système de remplacement d'un élément dans la base de donnée
     - Gestion des erreurs associés

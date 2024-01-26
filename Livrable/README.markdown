@@ -10,6 +10,7 @@ composer install
 - Configurer le .env par rapport à la votre
   
 ```sh
+# Exemple:
 DATABASE_URL="mysql://root:@127.0.0.1:3306/planning"
 ```
 
