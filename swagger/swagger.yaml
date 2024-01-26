@@ -1,0 +1,175 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "GestionPlanningAPI"
+paths:
+  /classStudents:
+    post:
+      summary: "ClassStudent Post"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "ClassStudent Post request body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              idLesson:
+                type: "integer"
+              idUsers:
+                type: "array"
+                items:
+                  type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+
+    get:
+      summary: "ClassStudents"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful response"
+
+    put:
+      summary: "Update ClassStudents"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "ClassStudents Update request body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              idLesson:
+                type: "integer"
+              idUsers:
+                type: "array"
+                items:
+                  type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+
+  /lessons:
+    get:
+      summary: "Lessons"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful response"
+
+    put:
+      summary: "Update Lesson"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Lesson Update request body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              idTeacher:
+                type: "integer"
+              name:
+                type: "string"
+              description:
+                type: "string"
+              dateBegin:
+                type: "string"
+                format: "date-time"
+              dateEnd:
+                type: "string"
+                format: "date-time"
+              place:
+                type: "string"
+      responses:
+        200:
+          description: "Successful response"
+
+    delete:
+      summary: "Delete Lesson"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "id"
+          type: "integer"
+          required: true
+      responses:
+        200:
+          description: "Successful response"
+
+    post:
+      summary: "Create Lesson"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Lesson Create request body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              idTeacher:
+                type: "integer"
+              name:
+                type: "string"
+              description:
+                type: "string"
+              dateBegin:
+                type: "string"
+                format: "date-time"
+              dateEnd:
+                type: "string"
+                format: "date-time"
+              place:
+                type: "string"
+      responses:
+        200:
+          description: "Successful response"
+
+    patch:
+      summary: "Update ClassStudents"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "ClassStudents Update request body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              idUsers:
+                type: "array"
+                items:
+                  type: "integer"
+      responses:
+        200:
+          description: "Successful response"
