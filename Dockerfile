@@ -1,23 +1,38 @@
-# Phase d'exécution
-FROM php:8.2-fpm-alpine
+# Utilisation d'une image PHP-FPM
+FROM php:8.2-fpm
 
-COPY . /var/www/html/
-WORKDIR /var/www/html/
+# Installation des dépendances nécessaires
+RUN apt-get update \
+    && apt-get install -y \
+        libzip-dev \
+        unzip \
+        git \
+        libicu-dev \
+        zlib1g-dev \
+        libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql intl gd
 
-RUN apk add --no-cache --virtual build-essentials \
-    icu-dev icu-libs zlib-dev g++ make automake autoconf libpng libxml2-dev libzip-dev php82-dom php82-session php82-xml php82-zip php82-tokenizer php82-sodium php82-xmlwriter php82-opcache php82-fileinfo \
-    libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
-    docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
-    docker-php-ext-install gd && \
-    docker-php-ext-install mysqli && \
-    docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install pdo && \
-    docker-php-ext-install intl && \
-    docker-php-ext-install exif && \
-    docker-php-ext-install zip
+# Installation de Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN apk add --no-cache composer
+# Création d'un répertoire de travail et copie du code source
+WORKDIR /var/www/html
+COPY . .
 
-RUN composer install --ignore-platform-req=ext-ctype
+# Installation des dépendances PHP via Composer
+RUN composer install --no-scripts --no-autoloader
 
-EXPOSE 8000
+# Chargement de l'autoloader de Composer
+RUN composer dump-autoload --optimize
+
+# Définir les permissions des fichiers 
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html/var
+
+# Exposition du port 9000 pour PHP-FPM
+EXPOSE 9000
+
+# Commande à exécuter lors du démarrage du conteneur
+CMD ["php-fpm"]
